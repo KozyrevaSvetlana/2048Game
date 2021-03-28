@@ -114,8 +114,9 @@
             // правилаИгрыToolStripMenuItem
             // 
             this.правилаИгрыToolStripMenuItem.Name = "правилаИгрыToolStripMenuItem";
-            this.правилаИгрыToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.правилаИгрыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.правилаИгрыToolStripMenuItem.Text = "Правила игры";
+            this.правилаИгрыToolStripMenuItem.Click += new System.EventHandler(this.правилаИгрыToolStripMenuItem_Click);
             // 
             // bestScoreTextLabel
             // 

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _2048Game
@@ -387,6 +381,12 @@ namespace _2048Game
         {
             if (MessageBox.Show("Вы хотите начать игру заново?", "Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Application.Restart();
+        }
+
+        private void правилаИгрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var rulesForm = new RulesForm();
+            rulesForm.ShowDialog();
         }
     }
 }
