@@ -373,13 +373,13 @@ namespace _2048Game
 
         private void выходИзИгрыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Вы действительно хотите выйти из игры?", "Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Вы действительно хотите выйти из игры?", "Выход", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Application.Exit();
         }
 
         private void рестартToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Вы хотите начать игру заново?", "Exit", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Вы хотите начать игру заново?", "Рестарт", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Application.Restart();
         }
 

@@ -60,6 +60,12 @@
     <Compile Include="RulesForm.Designer.cs">
       <DependentUpon>RulesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SizeForm.Designer.cs">
+      <DependentUpon>SizeForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -74,6 +80,9 @@
     </Compile>
     <EmbeddedResource Include="RulesForm.resx">
       <DependentUpon>RulesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SizeForm.resx">
+      <DependentUpon>SizeForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
