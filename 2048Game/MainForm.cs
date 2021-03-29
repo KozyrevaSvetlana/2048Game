@@ -7,22 +7,42 @@ namespace _2048Game
 {
     public partial class MainForm : Form
     {
-        private int score = 0;
+        
         private int bestScore;
+        public int score = 0;
         private string bestScorePath = "bestscore.txt";
-        public const int mapSize = 4;
+        public static int mapSize=0;
         private Label[,] labelsMap;
         private static Random random = new Random();
+
+        public class User
+        {
+            public string Name;
+            public int Score = 0;
+            public int userScore = 0;
+            public User(string name)
+            {
+                Name = name;
+            }
+        }
+
 
         private bool victory = false;
         public MainForm()
         {
             InitializeComponent();
-            ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 75);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            var user = new User("Неизвестно");
+            var userInfoForm = new UserInfoForm(user);
+            userInfoForm.ShowDialog(this);
+            var sizeForm = new SizeForm();
+            sizeForm.ShowDialog();
+            mapSize = sizeForm.mapSize;
+            ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 76);
+
             bestScore = GetBestScore();
             ShowScore();
             InitMap();

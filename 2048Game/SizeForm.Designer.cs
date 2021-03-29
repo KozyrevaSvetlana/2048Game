@@ -53,7 +53,7 @@
             this.sizeFourButton.TabIndex = 1;
             this.sizeFourButton.Text = "4 x 4";
             this.sizeFourButton.UseVisualStyleBackColor = true;
-            this.sizeFourButton.Click += new System.EventHandler(this.sizeFourButton_Click);
+            this.sizeFourButton.Click += new System.EventHandler(this.sizeFourButton_Click_1);
             // 
             // sizeFiveButton
             // 
@@ -64,6 +64,7 @@
             this.sizeFiveButton.TabIndex = 2;
             this.sizeFiveButton.Text = "5 x 5";
             this.sizeFiveButton.UseVisualStyleBackColor = true;
+            this.sizeFiveButton.Click += new System.EventHandler(this.sizeFiveButton_Click_1);
             // 
             // sizeSixButton
             // 
@@ -74,6 +75,7 @@
             this.sizeSixButton.TabIndex = 3;
             this.sizeSixButton.Text = "6 x 6";
             this.sizeSixButton.UseVisualStyleBackColor = true;
+            this.sizeSixButton.Click += new System.EventHandler(this.sizeSixButton_Click_1);
             // 
             // SizeForm
             // 
