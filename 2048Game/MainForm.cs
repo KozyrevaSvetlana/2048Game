@@ -9,7 +9,7 @@ namespace _2048Game
     {
         private int bestScore;
         private string bestScorePath = "bestscore.txt";
-        public static int mapSize = 4;
+        public static int mapSize = 0;
         private Label[,] labelsMap;
         private static Random random = new Random();
         User user = new User("Неизвестно");
@@ -41,8 +41,6 @@ namespace _2048Game
                     }
                 }
             }
-
-
             var sizeForm = new SizeForm();
             var resultSizeForm = sizeForm.ShowDialog();
 
