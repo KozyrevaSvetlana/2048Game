@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace _2048Game
 {
     public partial class MainForm : Form
     {
+        public string BestScorePath = "bestscore.txt";
         private int bestScore;
-        private string bestScorePath = "bestscore.txt";
-        public static int mapSize = 0;
+        public static int mapSize = 4;
         private Label[,] labelsMap;
         private static Random random = new Random();
         User user = new User("Неизвестно");
@@ -24,8 +25,22 @@ namespace _2048Game
         {
             var userInfoForm = new UserInfoForm(user);
             var resultUserNameForm = userInfoForm.ShowDialog(this);
-            isExit = resultUserNameForm == DialogResult.OK ? false : true;
-            if (resultUserNameForm != DialogResult.OK)
+            resultUserNameForm = ToExit(userInfoForm, resultUserNameForm, isExit);
+            var sizeForm = new SizeForm();
+            var resultSizeForm = sizeForm.ShowDialog();
+            resultUserNameForm = ToExit(sizeForm, resultSizeForm, isExit);
+            ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 76);
+            user.sizeForm = mapSize;
+            bestScore = GetBestScore();
+            ShowScore();
+            InitMap();
+            GenerateNumber();
+
+        }
+        private DialogResult ToExit(Form form, DialogResult result, bool isExit)
+        {
+            isExit = result == DialogResult.OK ? false : true;
+            if (result != DialogResult.OK)
             {
                 while (isExit)
                 {
@@ -37,43 +52,12 @@ namespace _2048Game
                     }
                     else
                     {
-                        resultUserNameForm = userInfoForm.ShowDialog(this);
+                        result = form.ShowDialog(this);
                     }
                 }
             }
-            var sizeForm = new SizeForm();
-            var resultSizeForm = sizeForm.ShowDialog();
-
-            ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 76);
-
-            bestScore = GetBestScore();
-            ShowScore();
-            InitMap();
-            GenerateNumber();
-
+            return result;
         }
-
-        private static void Exit()
-        {
-
-        }
-
-        private int GetBestScore()
-        {
-            if (File.Exists(bestScorePath))
-            {
-                var reader = new StreamReader(bestScorePath);
-                var bestScore = Convert.ToInt32(reader.ReadLine());
-                reader.Close();
-                return bestScore;
-            }
-            else
-            {
-                return 0;
-            }
-
-        }
-
         private void ShowScore()
         {
             scoreLabel.Text = user.Score.ToString();
@@ -83,10 +67,6 @@ namespace _2048Game
             }
             bestScoreNumberLabel.Text = bestScore.ToString();
         }
-
-
-
-
         private void InitMap()
         {
             labelsMap = new Label[mapSize, mapSize];
@@ -100,7 +80,6 @@ namespace _2048Game
                 }
             }
         }
-
         private Label CreateLabel(int indexRow, int indexColumn)
         {
             var label = new Label();
@@ -114,7 +93,6 @@ namespace _2048Game
             label.TextChanged += Label_TextChanged;
             return label;
         }
-
         private void Label_TextChanged(object sender, EventArgs e)
         {
             var label = (Label)sender;
@@ -125,7 +103,6 @@ namespace _2048Game
             }
 
         }
-
         private void GenerateNumber()
         {
             while (true)
@@ -144,7 +121,6 @@ namespace _2048Game
             }
 
         }
-
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Right && e.KeyCode != Keys.Left && e.KeyCode != Keys.Up && e.KeyCode != Keys.Down)
@@ -346,7 +322,6 @@ namespace _2048Game
             GenerateNumber();
 
         }
-
         private void UpdateLabelBackColor(Label label)
         {
             int indicatorTwo = 0;
@@ -390,17 +365,8 @@ namespace _2048Game
             }
             return true;
         }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveResults();
-        }
-
-        public void SaveResults()
-        {
-            var writer = new StreamWriter(bestScorePath, false);
-            writer.WriteLine(bestScore);
-            writer.Close();
         }
 
         private void выходИзИгрыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -419,6 +385,33 @@ namespace _2048Game
         {
             var rulesForm = new RulesForm();
             rulesForm.ShowDialog();
+        }
+        private static void SaveUserResults(User user, string userResultsPath)
+        {
+            var formattedData = user.Name+"$"+user.Score;
+            StreamWriter writer = new StreamWriter(userResultsPath, true, Encoding.UTF8);
+            writer.WriteLine(formattedData);
+            writer.Close();
+        }
+
+        private void статистикаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var resultForm = new Statistics();
+            resultForm.Show();
+        }
+        private int GetBestScore()
+        {
+            if (File.Exists(BestScorePath))
+            {
+                var reader = new StreamReader(BestScorePath);
+                var bestScore = Convert.ToInt32(reader.ReadLine());
+                reader.Close();
+                return bestScore;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

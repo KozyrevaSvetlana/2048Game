@@ -72,7 +72,6 @@
             this.KeyPreview = true;
             this.Name = "UserInfoForm";
             this.Text = "UserInfoForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserInfoForm_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UserInfoForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();

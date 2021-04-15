@@ -88,7 +88,6 @@
             this.Controls.Add(this.sizeTextLabel);
             this.Name = "SizeForm";
             this.Text = "SizeForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SizeForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

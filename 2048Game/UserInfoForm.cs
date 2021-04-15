@@ -45,22 +45,5 @@ namespace _2048Game
                 OkUserNameButton.PerformClick();
             }
         }
-
-        private void UserInfoForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //if (userNameTextBox.Text == string.Empty)
-            //{
-            //    DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти?", "Выход", MessageBoxButtons.YesNo);
-            //    if (dialog == DialogResult.Yes)
-            //    {
-            //        Application.Exit();
-            //    }
-            //    else
-            //    {
-            //        e.Cancel = true;
-            //    }
-            //}
-
-        }
     }
 }

@@ -10,6 +10,7 @@ namespace _2048Game
     {
         public string Name;
         public int Score;
+        public int sizeForm;
         public User(string name)
         {
             Name = name;
