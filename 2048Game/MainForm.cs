@@ -7,46 +7,56 @@ namespace _2048Game
 {
     public partial class MainForm : Form
     {
-        
         private int bestScore;
-        public int score = 0;
         private string bestScorePath = "bestscore.txt";
-        public static int mapSize=0;
+        public static int mapSize = 4;
         private Label[,] labelsMap;
         private static Random random = new Random();
-
-        public class User
-        {
-            public string Name;
-            public int Score = 0;
-            public int userScore = 0;
-            public User(string name)
-            {
-                Name = name;
-            }
-        }
-
-
+        User user = new User("Неизвестно");
         private bool victory = false;
+        public bool isExit;
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            var user = new User("Неизвестно");
             var userInfoForm = new UserInfoForm(user);
-            userInfoForm.ShowDialog(this);
+            var resultUserNameForm = userInfoForm.ShowDialog(this);
+            isExit = resultUserNameForm == DialogResult.OK ? false : true;
+            if (resultUserNameForm != DialogResult.OK)
+            {
+                while (isExit)
+                {
+                    DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти?", "Выход", MessageBoxButtons.YesNo);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        isExit = false;
+                        Application.Exit();
+                    }
+                    else
+                    {
+                        resultUserNameForm = userInfoForm.ShowDialog(this);
+                    }
+                }
+            }
+
+
             var sizeForm = new SizeForm();
-            sizeForm.ShowDialog();
-            mapSize = sizeForm.mapSize;
+            var resultSizeForm = sizeForm.ShowDialog();
+
             ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 76);
 
             bestScore = GetBestScore();
             ShowScore();
             InitMap();
             GenerateNumber();
+
+        }
+
+        private static void Exit()
+        {
 
         }
 
@@ -58,7 +68,6 @@ namespace _2048Game
                 var bestScore = Convert.ToInt32(reader.ReadLine());
                 reader.Close();
                 return bestScore;
-
             }
             else
             {
@@ -69,10 +78,10 @@ namespace _2048Game
 
         private void ShowScore()
         {
-            scoreLabel.Text = score.ToString();
-            if (score> bestScore)
+            scoreLabel.Text = user.Score.ToString();
+            if (user.Score > bestScore)
             {
-                bestScore = score;
+                bestScore = user.Score;
             }
             bestScoreNumberLabel.Text = bestScore.ToString();
         }
@@ -112,7 +121,7 @@ namespace _2048Game
         {
             var label = (Label)sender;
             UpdateLabelBackColor(label);
-            if (label.Text=="2048")
+            if (label.Text == "2048")
             {
                 victory = true;
             }
@@ -126,7 +135,7 @@ namespace _2048Game
                 var randomNumberLabel = random.Next(mapSize * mapSize);
                 var indexRow = randomNumberLabel / mapSize;
                 var indexColumn = randomNumberLabel % mapSize;
-                var randomNumber = random.Next(1,5);
+                var randomNumber = random.Next(1, 5);
                 randomNumber = randomNumber < 4 ? 2 : 4;
                 if (labelsMap[indexRow, indexColumn].Text == string.Empty)
                 {
@@ -161,7 +170,7 @@ namespace _2048Game
                                     if (labelsMap[i, j].Text == labelsMap[i, k].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
-                                        score += number*2;
+                                        user.Score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[i, k].Text = string.Empty;
                                         isMerged = true;
@@ -207,7 +216,7 @@ namespace _2048Game
                                     if (labelsMap[i, j].Text == labelsMap[i, k].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
-                                        score += number * 2;
+                                        user.Score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[i, k].Text = string.Empty;
                                         isMerged = true;
@@ -253,7 +262,7 @@ namespace _2048Game
                                     if (labelsMap[i, j].Text == labelsMap[k, j].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
-                                        score += number * 2;
+                                        user.Score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[k, j].Text = string.Empty;
                                         isMerged = true;
@@ -287,18 +296,18 @@ namespace _2048Game
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    for (int i = mapSize-1; i >=0 ; i--)
+                    for (int i = mapSize - 1; i >= 0; i--)
                     {
                         if (labelsMap[i, j].Text != string.Empty)
                         {
-                            for (int k = i - 1; k >=0; k--)
+                            for (int k = i - 1; k >= 0; k--)
                             {
                                 if (labelsMap[k, j].Text != string.Empty)
                                 {
                                     if (labelsMap[i, j].Text == labelsMap[k, j].Text)
                                     {
                                         var number = int.Parse(labelsMap[i, j].Text);
-                                        score += number * 2;
+                                        user.Score += number * 2;
                                         labelsMap[i, j].Text = (number * 2).ToString();
                                         labelsMap[k, j].Text = string.Empty;
                                     }
@@ -328,13 +337,13 @@ namespace _2048Game
                 }
             }
             ShowScore();
-            if (IsFullMap()&& !isMerged)
+            if (IsFullMap() && !isMerged)
             {
-                MessageBox.Show($"Игра окончена. Ваш счет: {score}");
+                MessageBox.Show($"Игра окончена. Ваш счет: {user.Score}");
             }
             if (victory)
             {
-                MessageBox.Show($"Поздравляем! Вы набрали 2048 очков. Ваш счет: {score}");
+                MessageBox.Show($"Поздравляем! Вы набрали 2048 очков. Ваш счет: {user.Score}");
             }
             GenerateNumber();
 
@@ -343,7 +352,7 @@ namespace _2048Game
         private void UpdateLabelBackColor(Label label)
         {
             int indicatorTwo = 0;
-            if (label.Text==string.Empty)
+            if (label.Text == string.Empty)
             {
                 indicatorTwo = 0;
 
@@ -351,7 +360,7 @@ namespace _2048Game
             else
             {
                 var number = Int32.Parse(label.Text);
-                indicatorTwo=(int)Math.Log(number, 2);
+                indicatorTwo = (int)Math.Log(number, 2);
             }
 
             Color[] colors = new Color[12];
@@ -375,7 +384,7 @@ namespace _2048Game
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    if (labelsMap[i,j].Text==string.Empty)
+                    if (labelsMap[i, j].Text == string.Empty)
                     {
                         return false;
                     }
@@ -385,6 +394,11 @@ namespace _2048Game
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveResults();
+        }
+
+        public void SaveResults()
         {
             var writer = new StreamWriter(bestScorePath, false);
             writer.WriteLine(bestScore);

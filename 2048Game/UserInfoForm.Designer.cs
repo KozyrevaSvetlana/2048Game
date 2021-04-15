@@ -49,6 +49,7 @@
             this.userNameTextBox.Name = "userNameTextBox";
             this.userNameTextBox.Size = new System.Drawing.Size(211, 20);
             this.userNameTextBox.TabIndex = 1;
+            this.userNameTextBox.TextChanged += new System.EventHandler(this.userNameTextBox_TextChanged);
             // 
             // OkUserNameButton
             // 
@@ -68,8 +69,11 @@
             this.Controls.Add(this.OkUserNameButton);
             this.Controls.Add(this.userNameTextBox);
             this.Controls.Add(this.label1);
+            this.KeyPreview = true;
             this.Name = "UserInfoForm";
             this.Text = "UserInfoForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserInfoForm_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UserInfoForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

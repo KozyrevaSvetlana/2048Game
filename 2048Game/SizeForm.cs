@@ -29,5 +29,18 @@ namespace _2048Game
             mapSize = 6;
             Close();
         }
+
+        private void SizeForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //DialogResult dialog = MessageBox.Show("Вы действительно хотите выйти?", "Выход", MessageBoxButtons.YesNo);
+            //if (dialog == DialogResult.Yes)
+            //{
+            //    Application.Exit();
+            //}
+            //else
+            //{
+            //    e.Cancel = true;
+            //}
+        }
     }
 }

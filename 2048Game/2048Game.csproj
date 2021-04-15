@@ -66,6 +66,7 @@
     <Compile Include="SizeForm.Designer.cs">
       <DependentUpon>SizeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
     <Compile Include="UserInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
