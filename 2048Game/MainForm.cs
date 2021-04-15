@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -8,12 +9,13 @@ namespace _2048Game
 {
     public partial class MainForm : Form
     {
+        public string results = "results.txt";
         public string BestScorePath = "bestscore.txt";
         private int bestScore;
         public static int mapSize = 4;
         private Label[,] labelsMap;
         private static Random random = new Random();
-        User user = new User("Неизвестно");
+        User user = new User("Неизвестно", 4);
         private bool victory = false;
         public bool isExit;
         public MainForm()
@@ -29,8 +31,8 @@ namespace _2048Game
             var sizeForm = new SizeForm();
             var resultSizeForm = sizeForm.ShowDialog();
             resultUserNameForm = ToExit(sizeForm, resultSizeForm, isExit);
+            user.MapSize = mapSize;
             ClientSize = new Size(76 * mapSize + 12, 76 * mapSize + 76);
-            user.sizeForm = mapSize;
             bestScore = GetBestScore();
             ShowScore();
             InitMap();
@@ -367,6 +369,18 @@ namespace _2048Game
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SaveUserResults(results, user);
+            SaveBestScore();
+        }
+
+        private void SaveBestScore()
+        {
+            if (bestScore>0)
+            {
+                var writer = new StreamWriter(BestScorePath, false);
+                writer.WriteLine(bestScore);
+                writer.Close();
+            }
         }
 
         private void выходИзИгрыToolStripMenuItem_Click(object sender, EventArgs e)
@@ -396,7 +410,9 @@ namespace _2048Game
 
         private void статистикаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var resultForm = new Statistics();
+            var resultList = new List<User>();
+            resultList = ViewStatistics();
+            var resultForm = new Statistics(resultList);
             resultForm.Show();
         }
         private int GetBestScore()
@@ -413,5 +429,34 @@ namespace _2048Game
                 return 0;
             }
         }
+        public List<User> ViewStatistics()
+        {
+            var list = new List<User>();
+            StreamReader reader = new StreamReader(results, Encoding.UTF8);
+            var data = reader.ReadToEnd();
+            reader.Close();
+            var lines = data.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var result = line.Split('$');
+                var score = Int32.Parse(result[1]);
+                var mapSize = Int32.Parse(result[2]);
+                var user = new User(result[0], score, mapSize);
+                list.Add(user);
+            }
+            return list;
+        }
+
+        public void SaveUserResults(string path,User user)
+        {
+            if (user.Score>0)
+            {
+                var data = user.Name + "$" + user.Score + "$" + user.MapSize;
+                StreamWriter writer = new StreamWriter(path, true, Encoding.UTF8);
+                writer.WriteLine(data);
+                writer.Close();
+            }
+        }
+
     }
 }

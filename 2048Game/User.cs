@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace _2048Game
 {
@@ -10,11 +6,18 @@ namespace _2048Game
     {
         public string Name;
         public int Score;
-        public int sizeForm;
-        public User(string name)
+        public int MapSize;
+        public User(string name, int mapSize)
         {
             Name = name;
             Score = 0;
+            MapSize = mapSize;
+        }
+        public User(string name, int score, int mapSize)
+        {
+            Name = name;
+            Score = score;
+            MapSize = mapSize;
         }
     }
 }
